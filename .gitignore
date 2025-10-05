@@ -80,7 +80,6 @@ key.pem
 
 # Test files
 test-results/
-screenshots/
 
 # Local configuration overrides
 config.local.json

@@ -2,6 +2,91 @@
 
 A powerful Chrome extension that analyzes code changes in Pull Requests, identifies relevant tests, and automatically triggers Jenkins pipelines to run targeted test suites with optimal coverage.
 
+---
+
+## 📸 Visual Showcase
+
+<div align="center">
+
+### See the Extension in Action
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="screenshots/Example_1.png" alt="PR Analysis Dashboard" width="100%"/>
+      <br />
+      <b>PR Analysis Dashboard</b>
+      <br />
+      <em>Instantly view test recommendations on any PR</em>
+    </td>
+    <td align="center" width="50%">
+      <img src="screenshots/Example_2.png" alt="Smart Test Detection" width="100%"/>
+      <br />
+      <b>Smart Test Detection</b>
+      <br />
+      <em>AI-powered test file identification</em>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="screenshots/Example_3.png" alt="Coverage Analysis" width="100%"/>
+      <br />
+      <b>Coverage Analysis</b>
+      <br />
+      <em>Real-time test coverage metrics</em>
+    </td>
+    <td align="center" width="50%">
+      <img src="screenshots/Example_4.png" alt="Jenkins Integration" width="100%"/>
+      <br />
+      <b>Jenkins Integration</b>
+      <br />
+      <em>One-click pipeline triggering</em>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="screenshots/Example_5.png" alt="Multi-Platform Support" width="100%"/>
+      <br />
+      <b>Multi-Platform Support</b>
+      <br />
+      <em>Works with GitHub, GitLab, Bitbucket</em>
+    </td>
+    <td align="center" width="50%">
+      <img src="screenshots/Example_6.png" alt="Configuration Panel" width="100%"/>
+      <br />
+      <b>Easy Configuration</b>
+      <br />
+      <em>Simple setup for all platforms</em>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2">
+      <img src="screenshots/Example_7.png" alt="Test Results" width="50%"/>
+      <br />
+      <b>Automated Test Results</b>
+      <br />
+      <em>Results posted directly to your PRs</em>
+    </td>
+  </tr>
+</table>
+
+</div>
+
+---
+
+## 🎯 Quick Links
+
+- [📸 Visual Showcase](#-visual-showcase) - See it in action
+- [🚀 Features](#-features) - What it can do
+- [🔧 Installation](#-installation) - Get started
+- [⚙️ Configuration](#️-configuration) - Set it up
+- [🎯 Usage](#-usage) - How to use
+- [🛠️ Development](#️-development) - For developers
+- [🏗️ Architecture](#️-architecture) - Modular structure
+- [🤝 Contributing](#-contributing) - Help improve it
+
+---
+
 ## 🚀 Features
 
 ### Core Functionality
