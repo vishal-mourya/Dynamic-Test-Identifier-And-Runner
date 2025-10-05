@@ -1,0 +1,47 @@
+{
+  "name": "ai-based-dynamic-test-identifier-runner",
+  "version": "1.0.0",
+  "description": "Chrome extension that analyzes PR code changes, identifies relevant tests, and triggers Jenkins pipelines automatically",
+  "main": "background.js",
+  "scripts": {
+    "build": "node create-icons.js",
+    "test": "echo \"No tests specified\" && exit 0",
+    "lint": "eslint *.js",
+    "format": "prettier --write *.js *.html *.css",
+    "zip": "zip -r ai-based-dynamic-test-runner.zip . -x node_modules/\\* .git/\\* *.zip",
+    "dev": "echo \"Load extension in Chrome Developer Mode from this directory\"",
+    "validate": "node validate-manifest.js"
+  },
+  "keywords": [
+    "chrome-extension",
+    "testing",
+    "jenkins",
+    "ci-cd",
+    "pull-request",
+    "code-analysis",
+    "test-automation",
+    "github",
+    "gitlab",
+    "bitbucket"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vishal-mourya/ai-based-dynamic-test-identifier-runner.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vishal-mourya/ai-based-dynamic-test-identifier-runner/issues"
+  },
+  "homepage": "https://github.com/vishal-mourya/ai-based-dynamic-test-identifier-runner#readme",
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "prettier": "^2.8.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "chrome": {
+    "minimum_version": "88"
+  }
+}

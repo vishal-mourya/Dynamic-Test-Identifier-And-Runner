@@ -1,0 +1,140 @@
+{
+  "extension": {
+    "name": "AI-Based Dynamic Test Identifier & Runner",
+    "version": "1.0.0",
+    "author": "",
+    "homepage": "https://github.com/vishal-mourya/ai-based-dynamic-test-identifier-runner"
+  },
+  "defaults": {
+    "jenkins": {
+      "jobName": "test-runner-pipeline",
+      "timeout": 1800,
+      "retryAttempts": 3
+    },
+    "analysis": {
+      "coverageThreshold": 80,
+      "maxTestsToRun": 50,
+      "complexityThreshold": 10,
+      "riskScoreThreshold": 70
+    },
+    "ui": {
+      "autoTrigger": false,
+      "showNotifications": true,
+      "panelPosition": "right",
+      "theme": "auto"
+    }
+  },
+  "supportedPlatforms": {
+    "github": {
+      "apiUrl": "https://api.github.com",
+      "urlPattern": "github.com/*/pull/*",
+      "requiredScopes": ["repo", "read:org"]
+    },
+    "gitlab": {
+      "apiUrl": "https://gitlab.com/api/v4",
+      "urlPattern": "gitlab.com/*/merge_requests/*",
+      "requiredScopes": ["api", "read_repository"]
+    },
+    "bitbucket": {
+      "apiUrl": "https://api.bitbucket.org/2.0",
+      "urlPattern": "bitbucket.org/*/pull-requests/*",
+      "requiredScopes": ["repository:read", "pullrequest:read"]
+    }
+  },
+  "testPatterns": {
+    "javascript": {
+      "extensions": ["js", "jsx", "mjs"],
+      "patterns": ["**/*.test.js", "**/*.spec.js", "**/test/**/*.js", "**/tests/**/*.js", "**/__tests__/**/*.js"],
+      "frameworks": ["jest", "mocha", "jasmine", "vitest"]
+    },
+    "typescript": {
+      "extensions": ["ts", "tsx"],
+      "patterns": ["**/*.test.ts", "**/*.spec.ts", "**/test/**/*.ts", "**/tests/**/*.ts", "**/__tests__/**/*.ts"],
+      "frameworks": ["jest", "mocha", "jasmine", "vitest"]
+    },
+    "python": {
+      "extensions": ["py"],
+      "patterns": ["**/test_*.py", "**/*_test.py", "**/tests/**/*.py", "**/test/**/*.py"],
+      "frameworks": ["pytest", "unittest", "nose2"]
+    },
+    "java": {
+      "extensions": ["java"],
+      "patterns": ["**/src/test/**/*.java", "**/*Test.java", "**/*Tests.java", "**/test/**/*.java"],
+      "frameworks": ["junit", "testng", "spock"]
+    },
+    "csharp": {
+      "extensions": ["cs"],
+      "patterns": ["**/*.Test.cs", "**/*.Tests.cs", "**/test/**/*.cs", "**/tests/**/*.cs"],
+      "frameworks": ["nunit", "mstest", "xunit"]
+    },
+    "go": {
+      "extensions": ["go"],
+      "patterns": ["**/*_test.go"],
+      "frameworks": ["testing", "testify", "ginkgo"]
+    },
+    "php": {
+      "extensions": ["php"],
+      "patterns": ["**/tests/**/*.php", "**/*Test.php", "**/test/**/*.php"],
+      "frameworks": ["phpunit", "pest", "codeception"]
+    },
+    "ruby": {
+      "extensions": ["rb"],
+      "patterns": ["**/spec/**/*.rb", "**/*_spec.rb", "**/test/**/*.rb", "**/*_test.rb"],
+      "frameworks": ["rspec", "minitest", "test-unit"]
+    },
+    "rust": {
+      "extensions": ["rs"],
+      "patterns": ["**/tests/**/*.rs", "**/*_test.rs"],
+      "frameworks": ["cargo test"]
+    },
+    "kotlin": {
+      "extensions": ["kt", "kts"],
+      "patterns": ["**/src/test/**/*.kt", "**/*Test.kt", "**/*Tests.kt"],
+      "frameworks": ["junit", "spek", "kotest"]
+    }
+  },
+  "cicdIntegrations": {
+    "jenkins": {
+      "parameterNames": {
+        "repoUrl": "REPO_URL",
+        "prNumber": "PR_NUMBER",
+        "testFiles": "TEST_FILES",
+        "branch": "BRANCH",
+        "coverage": "COVERAGE_THRESHOLD"
+      }
+    },
+    "githubActions": {
+      "workflowFile": ".github/workflows/test-runner.yml",
+      "inputs": {
+        "test-files": "string",
+        "coverage-threshold": "number"
+      }
+    },
+    "gitlabCI": {
+      "configFile": ".gitlab-ci.yml",
+      "variables": {
+        "TEST_FILES": "string",
+        "COVERAGE_THRESHOLD": "number"
+      }
+    }
+  },
+  "features": {
+    "codeAnalysis": {
+      "enabled": true,
+      "detectComplexity": true,
+      "highlightCritical": true,
+      "riskAssessment": true
+    },
+    "testGeneration": {
+      "enabled": true,
+      "templateGeneration": true,
+      "aiSuggestions": false
+    },
+    "reporting": {
+      "enabled": true,
+      "postToPR": true,
+      "generateReports": true,
+      "slackIntegration": false
+    }
+  }
+}

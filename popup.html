@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Test Runner</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="popup-container">
+        <header class="popup-header">
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                <h1>Test Runner</h1>
+            </div>
+            <div class="version">v1.0.0</div>
+        </header>
+
+        <nav class="tab-nav">
+            <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+            <button class="tab-btn" data-tab="config">Config</button>
+            <button class="tab-btn" data-tab="history">History</button>
+        </nav>
+
+        <main class="popup-content">
+            <!-- Dashboard Tab -->
+            <div class="tab-content active" id="dashboard">
+                <div class="status-card">
+                    <div class="status-header">
+                        <h3>Current Status</h3>
+                        <div class="status-indicator" id="status-indicator">
+                            <span class="status-dot"></span>
+                            <span class="status-text">Ready</span>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-stats">
+                        <div class="stat">
+                            <div class="stat-value" id="tests-run-today">0</div>
+                            <div class="stat-label">Tests Today</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" id="success-rate">0%</div>
+                            <div class="stat-label">Success Rate</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" id="avg-runtime">0m</div>
+                            <div class="stat-label">Avg Runtime</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="actions-card">
+                    <h3>Quick Actions</h3>
+                    <div class="action-buttons">
+                        <button class="action-btn primary" id="analyze-current-pr">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                            Analyze Current PR
+                        </button>
+                        <button class="action-btn secondary" id="view-last-results">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
+                            </svg>
+                            View Last Results
+                        </button>
+                    </div>
+                </div>
+
+                <div class="recent-activity">
+                    <h3>Recent Activity</h3>
+                    <div class="activity-list" id="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon success">✓</div>
+                            <div class="activity-content">
+                                <div class="activity-title">No recent activity</div>
+                                <div class="activity-time">Start by analyzing a PR</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configuration Tab -->
+            <div class="tab-content" id="config">
+                <div class="config-section">
+                    <h3>Jenkins Configuration</h3>
+                    <div class="form-group">
+                        <label for="jenkins-url">Jenkins URL</label>
+                        <input type="url" id="jenkins-url" placeholder="https://jenkins.example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="jenkins-username">Username</label>
+                        <input type="text" id="jenkins-username" placeholder="your-username">
+                    </div>
+                    <div class="form-group">
+                        <label for="jenkins-token">API Token</label>
+                        <input type="password" id="jenkins-token" placeholder="your-api-token">
+                    </div>
+                    <div class="form-group">
+                        <label for="jenkins-job">Job Name</label>
+                        <input type="text" id="jenkins-job" placeholder="Toofan/Feature Regression Jobs/Adhoc E2E Regression">
+                        <small>For nested jobs, use: Folder/Subfolder/Job Name</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="jenkins-build-token">Build Token (Optional)</label>
+                        <input type="text" id="jenkins-build-token" placeholder="your-build-token">
+                        <small>Required for remote triggering of nested jobs</small>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3>Git Platform Tokens</h3>
+                    <div class="platform-config">
+                        <div class="platform-item">
+                            <div class="platform-header">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzMzMzMzMyI+PHBhdGggZD0iTTEyIDBjLTYuNjI2IDAtMTIgNS4zNzMtMTIgMTIgMCA1LjMwMiAzLjQzOCA5LjggOC4yMDcgMTEuMzg3LjU5OS0uMTExIDEuMDkzLS41MjYgMS4wOTMtMS4xNDYgMC0uNTY0LS4wMjEtMi4wNjEtLjAzMi00LjA0Mi0zLjMzOC43MjMtNC4wNDItMS42MS00LjA0Mi0xLjYxQzQuNDIyIDE2LjA3IDMuNjMzIDE1LjcgMy42MzMgMTUuN2MtMS4wODctLjc0NC4wODQtLjcyOS4wODQtLjcyOSAxLjIwNS4wODQgMS44MzggMS4yMzYgMS44MzggMS4yMzYgMS4wNyAxLjgzNSAyLjgwOSAxLjMwNSAzLjQ5NS45OTguMTA4LS43NzYuNDE3LTEuMzA1Ljc2LTEuNjA1LTIuNjY1LS4zLTUuNDY2LTEuMzMyLTUuNDY2LTUuOTMgMC0xLjMxLjQ2NS0yLjM4IDEuMjM1LTMuMjItLjEzNS0uMzAzLS41NC0xLjUyMy4xMDUtMy4xNzYgMCAwIDEuMDA1LS4zMjIgMy4zIDEuMjMuOTYtLjI2NyAxLjk4LS4zOTkgMy0uNDA1IDEuMDIuMDA2IDIuMDQuMTM4IDMgLjQwNSAyLjI4LTEuNTUyIDMuMjg1LTEuMjMgMy4yODUtMS4yMy42NDUgMS42NTMuMjQgMi44NzMuMTIgMy4xNzYuNzY1Ljg0IDEuMjMgMS45MSAxLjIzIDMuMjIgMCA0LjYxLTIuODA1IDUuNjI1LTUuNDc1IDUuOTIuNDIuMzYuODEgMS4wOTYuODEgMi4yMiAwIDEuNjA2LS4wMTUgMi44OTYtLjAxNSAzLjI4NiAwIC42MzUuNDg1IDEuMTU1IDEuMDk1IDEuMTQ1QzIwLjU2NSAyMS43OTUgMjQgMTcuMzAyIDI0IDEyYzAtNi42MjctNS4zNzMtMTItMTItMTJ6Ii8+PC9zdmc+" alt="GitHub" width="20" height="20">
+                                <span>GitHub</span>
+                            </div>
+                            <input type="password" id="github-token" placeholder="GitHub Personal Access Token">
+                        </div>
+                        <div class="platform-item">
+                            <div class="platform-header">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI0ZDNjEyRCI+PHBhdGggZD0iTTIyLjY1IDEyLjM5bC0zLjUzIDMuNTNhLjc1Ljc1IDAgMDEtMS4wNiAwbC0zLjUzLTMuNTNhLjc1Ljc1IDAgMDEwLTEuMDZsMy41My0zLjUzYS43NS43NSAwIDAxMS4wNiAwbDMuNTMgMy41M2EuNzUuNzUgMCAwMTAgMS4wNnptLTkuNCA5LjZsLTMuNTMgMy41M2EuNzUuNzUgMCAwMS0xLjA2IDBsLTMuNTMtMy41M2EuNzUuNzUgMCAwMTAtMS4wNmwzLjUzLTMuNTNhLjc1Ljc1IDAgMDExLjA2IDBsMy41MyAzLjUzYS43NS43NSAwIDAxMCAxLjA2em0wLTEyLjc4bC0zLjUzIDMuNTNhLjc1Ljc1IDAgMDEtMS4wNiAwbC0zLjUzLTMuNTNhLjc1Ljc1IDAgMDEwLTEuMDZsMy41My0zLjUzYS43NS43NSAwIDAxMS4wNiAwbDMuNTMgMy41M2EuNzUuNzUgMCAwMTAgMS4wNnptLTkuNCA5LjZsLTMuNTMgMy41M2EuNzUuNzUgMCAwMS0xLjA2IDBsLTMuNTMtMy41M2EuNzUuNzUgMCAwMTAtMS4wNmwzLjUzLTMuNTNhLjc1Ljc1IDAgMDExLjA2IDBsMy41MyAzLjUzYS43NS43NSAwIDAxMCAxLjA2eiIvPjwvc3ZnPg==" alt="GitLab" width="20" height="20">
+                                <span>GitLab</span>
+                            </div>
+                            <input type="password" id="gitlab-token" placeholder="GitLab Personal Access Token">
+                        </div>
+                        <div class="platform-item">
+                            <div class="platform-header">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzIwNTA4MSI+PHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0xMiAyQzYuNDggMiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyem0tMiAxNWwtNS01IDEuNDEtMS40MUwxMCAxNC4xN2w3LjU5LTcuNTlMMTkgOGwtOSA5eiIvPjwvc3ZnPg==" alt="Bitbucket" width="20" height="20">
+                                <span>Bitbucket</span>
+                            </div>
+                            <div class="bitbucket-config">
+                                <input type="text" id="bitbucket-username" placeholder="Username">
+                                <input type="password" id="bitbucket-password" placeholder="App Password">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3>Test Settings</h3>
+                    <div class="form-group">
+                        <label for="coverage-threshold">Coverage Threshold (%)</label>
+                        <input type="number" id="coverage-threshold" min="0" max="100" value="80">
+                    </div>
+                    <div class="form-group">
+                        <label for="max-tests">Max Tests to Run</label>
+                        <input type="number" id="max-tests" min="1" max="100" value="50">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="auto-trigger"> Auto-trigger tests on PR detection
+                        </label>
+                    </div>
+                </div>
+
+                <div class="config-actions">
+                    <button class="action-btn primary" id="save-config">Save Configuration</button>
+                    <button class="action-btn secondary" id="test-connection">Test Connection</button>
+                </div>
+            </div>
+
+            <!-- History Tab -->
+            <div class="tab-content" id="history">
+                <div class="history-header">
+                    <h3>Test Run History</h3>
+                    <button class="action-btn secondary small" id="clear-history">Clear History</button>
+                </div>
+                
+                <div class="history-list" id="history-list">
+                    <div class="history-item">
+                        <div class="history-icon">📊</div>
+                        <div class="history-content">
+                            <div class="history-title">No test runs yet</div>
+                            <div class="history-subtitle">Your test history will appear here</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="popup-footer">
+            <div class="footer-links">
+                <a href="#" id="help-link">Help</a>
+                <a href="#" id="feedback-link">Feedback</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
