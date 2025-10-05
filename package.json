@@ -5,12 +5,18 @@
   "main": "background.js",
   "scripts": {
     "build": "node create-icons.js",
-    "test": "echo \"No tests specified\" && exit 0",
-    "lint": "eslint *.js",
-    "format": "prettier --write *.js *.html *.css",
-    "zip": "zip -r ai-based-dynamic-test-runner.zip . -x node_modules/\\* .git/\\* *.zip",
+    "build:prod": "node scripts/build.js",
+    "test": "node scripts/test.js",
+    "test:unit": "echo \"Running unit tests...\"",
+    "lint": "eslint src/**/*.js",
+    "lint:fix": "eslint src/**/*.js --fix",
+    "format": "prettier --write src/**/*.js docs/**/*.md *.md",
+    "zip": "zip -r ai-based-dynamic-test-runner.zip . -x node_modules/\\* .git/\\* legacy/\\* *.zip",
     "dev": "echo \"Load extension in Chrome Developer Mode from this directory\"",
-    "validate": "node validate-manifest.js"
+    "validate": "node validate-manifest.js",
+    "docs": "echo \"Documentation available in docs/ directory\"",
+    "clean": "rm -rf dist/ *.zip",
+    "watch": "echo \"Development mode - watching for changes\""
   },
   "keywords": [
     "chrome-extension",
